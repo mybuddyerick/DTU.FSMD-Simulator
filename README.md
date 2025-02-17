@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9319df58-b8e9-4502-9ed3-9e123172c9d1" alt="image" width="128" height="128"/>
+</p>
+
 # Cyber-Metro
 Cyber Systems - Assignment 1
 
