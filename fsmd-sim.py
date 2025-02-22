@@ -3,7 +3,7 @@
 import sys
 import xmltodict
 
-print("Welcome to the FSMD simulator! - Version ?? - Designed by ??")
+print("Welcome to the FSMD simulator! - Version 1.0 - Designed by 'Group 2'")
 
 if len(sys.argv) < 3:
     print('Too few arguments.')
@@ -239,12 +239,53 @@ print('\n---Start simulation---')
 ######################################
 ######################################
 # Write your code here!
+break_line = '--------------------------------------------------'
+
+print('At the beginning of the simulation the status is:')
+print("Variables:")
+for key in fsmd_des['fsmddescription']['variablelist']['variable']:
+    print(f"  {key} = {variables[key]}")
+print("Initial state:", initial_state)
+
+def print_cycle_init():
+    print(break_line)
+    print('Cycle:', cycle)
+    print('Current state:', state)
+    for input in fsmd_des['fsmddescription']['inputlist']['input']:
+        print(' ', input, "=", inputs[input])
+
+def print_cycle_complete():
+    print("Next state:", state)
+    print(f"At the end of cycle {cycle-1} execution, the status is:")
+    print("Variables:")
+    for key in fsmd_des['fsmddescription']['variablelist']['variable']:
+        print(f"  {key} = {variables[key]}")
+
+def run_cycle():
+    global cycle, state
+    print_cycle_init()
+    # make a list of transitions
+    true_condition = None
+    next_state = "TEST"
+    instr = "NOP"
+    # loop through transitions and check the condition
+    # when condition is True, log condition + next step + instruction, break the loop
+    print(f"The condition ({true_condition}) is true.\nExecuting instruction: {instr}")
+    execute_instruction(instr)
+    state = next_state
+    cycle += 1
+    print_cycle_complete()
+
+def main():
+    for i in range(5):
+        run_cycle()
+    print(f"{break_line}\nEnd-state reached.\nEnd of simulation. Goodbye!")
+
+main()
+
 ######################################
 ######################################
 
-print('\n---End of simulation---')
-
-#
 # Description:
 # This is a code snippet used to update the inputs values according to the
 # stimuli file content. You can see here how the 'fsmd_stim' variable is used.
