@@ -264,12 +264,12 @@ def print_cycle_complete():
 def run_cycle():
     global cycle, state
     print_cycle_init()
-    # make a list of transitions
+    # TODO: make a list of transitions
     true_condition = None
     next_state = "TEST"
     instr = "NOP"
-    # loop through transitions and check the condition
-    # when condition is True, log condition + next step + instruction, break the loop
+    # TODO: loop through transitions and check the condition
+    # TODO: when condition is True, log condition + next step + instruction, break the loop
     print(f"The condition ({true_condition}) is true.\nExecuting instruction: {instr}")
     execute_instruction(instr)
     state = next_state
