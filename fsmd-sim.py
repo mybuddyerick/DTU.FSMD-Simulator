@@ -3,7 +3,7 @@
 import sys
 import xmltodict
 
-print("Welcome to the FSMD simulator! - Version 1.0 - Designed by 'Group 2'")
+print("Welcome to the FSMD simulator! - Version 2.0 - Designed by 'Group 2'")
 
 if len(sys.argv) < 3:
     print('Too few arguments.')
@@ -238,14 +238,20 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-# Write your code here!
+####    Code starts here!!!        ###
+######################################
+######################################
+
 break_line = '--------------------------------------------------'
 
-print('At the beginning of the simulation the status is:')
-print("Variables:")
+# -- Initialise simulation
+
+state = initial_state
+
+print("At the beginning of the simulation the status is:\nVariables:")
 for key in fsmd_des['fsmddescription']['variablelist']['variable']:
     print(f"  {key} = {variables[key]}")
-print("Initial state:", initial_state)
+print("Initial state:", state)
 
 def print_cycle_init():
     print(break_line)
@@ -256,20 +262,29 @@ def print_cycle_init():
 
 def print_cycle_complete():
     print("Next state:", state)
-    print(f"At the end of cycle {cycle-1} execution, the status is:")
-    print("Variables:")
+    print(f"At the end of cycle {cycle-1} execution, the status is:\nVariables:")
     for key in fsmd_des['fsmddescription']['variablelist']['variable']:
         print(f"  {key} = {variables[key]}")
 
 def run_cycle():
     global cycle, state
+    # print('woooow', cycle)
+    for variable in fsmd_stim['fsmdstimulus']['setinput']:
+        # execute_setinput()
+        if int(variable['cycle']) == cycle:
+            execute_setinput(variable['expression'])
+
     print_cycle_init()
-    # TODO: make a list of transitions
     true_condition = None
     next_state = "TEST"
     instr = "NOP"
-    # TODO: loop through transitions and check the condition
-    # TODO: when condition is True, log condition + next step + instruction, break the loop
+    # loop through transitions and check the condition
+    for trans in fsmd[state]:
+        if evaluate_condition(trans["condition"]):
+            true_condition = trans["condition"]
+            next_state = trans["nextstate"]
+            instr = trans["instruction"]
+            break
     print(f"The condition ({true_condition}) is true.\nExecuting instruction: {instr}")
     execute_instruction(instr)
     state = next_state
@@ -277,12 +292,23 @@ def run_cycle():
     print_cycle_complete()
 
 def main():
-    for i in range(5):
+    end_state = fsmd_stim['fsmdstimulus']['endstate']
+    while True:
         run_cycle()
+        if cycle == iterations:
+            print("!----!----!----!----!----!----!----!----!----!----")
+            print(f"Maximum cycles reached.\nSimulation ended after {iterations} iterations.")
+            break
+        elif state == end_state:
+            run_cycle()
+            break
     print(f"{break_line}\nEnd-state reached.\nEnd of simulation. Goodbye!")
 
 main()
 
+######################################
+######################################
+####         END OF CODE           ###
 ######################################
 ######################################
 
