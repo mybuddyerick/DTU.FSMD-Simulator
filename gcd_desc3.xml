@@ -1,0 +1,95 @@
+<fsmddescription>
+
+  <statelist>
+    <state>INITIALIZE</state>
+    <state>TEST</state>
+    <state>AMINB</state>
+    <state>BMINA</state>
+    <state>FINISH</state>
+  </statelist>
+
+  <initialstate>INITIALIZE</initialstate>
+
+  <inputlist>
+    <input>number</input>
+  </inputlist>
+
+  <variablelist>
+    <variable>n</variable>
+    <variable>bin</variable>
+    <variable>r</variable>
+  </variablelist>
+
+  <operationlist>
+    <operation>
+      <name>mod2</name>
+      <expression>n % 2</expression>
+    </operation>
+    <operation>
+      <name>div2</name>
+      <expression>n // 2</expression>
+    </operation>
+  </operationlist>
+
+  <conditionlist>
+    <condition>True</condition>
+    <condition>n &gt; 0</condition>
+    <condition>n == 0</condition>
+  </conditionlist>
+
+  <fsmd>
+    <INITIALIZE>
+      <transition>
+        <condition>True</condition>
+        <instruction>
+          n = number;
+          bin = "";
+        </instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </INITIALIZE>
+
+    <TEST>
+      <transition>
+        <condition>n &gt; 0</condition>
+        <instruction></instruction>
+        <nextstate>AMINB</nextstate>
+      </transition>
+      <transition>
+        <condition>n == 0</condition>
+        <instruction></instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </TEST>
+
+    <AMINB>
+      <transition>
+        <condition>True</condition>
+        <instruction>
+          r = mod2(n);
+          n = div2(n);
+        </instruction>
+        <nextstate>BMINA</nextstate>
+      </transition>
+    </AMINB>
+
+    <BMINA>
+      <transition>
+        <condition>True</condition>
+        <instruction>
+          bin = r + bin;
+        </instruction>
+        <nextstate>TEST</nextstate>
+      </transition>
+    </BMINA>
+
+    <FINISH>
+      <transition>
+        <condition>True</condition>
+        <instruction>// Simulation complete. "bin" now holds the binary result.</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </FINISH>
+  </fsmd>
+
+</fsmddescription>

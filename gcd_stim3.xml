@@ -1,0 +1,10 @@
+<fsmdstimulus>
+
+  <setinput>
+    <cycle>0</cycle>
+    <expression>number = 42</expression>
+  </setinput>
+
+  <endstate>FINISH</endstate>
+
+</fsmdstimulus>
