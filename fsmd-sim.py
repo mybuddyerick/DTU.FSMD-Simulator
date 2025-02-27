@@ -268,9 +268,7 @@ def print_cycle_complete():
 
 def run_cycle():
     global cycle, state
-    # print('woooow', cycle)
     for variable in fsmd_stim['fsmdstimulus']['setinput']:
-        # execute_setinput()
         if int(variable['cycle']) == cycle:
             execute_setinput(variable['expression'])
 
