@@ -23,12 +23,28 @@
 
   <operationlist>
     <operation>
+      <name>init_n</name>
+      <expression>n = number</expression>
+    </operation>
+    <operation>
+      <name>init_bin</name>
+      <expression>bin = ""</expression>
+    </operation>
+    <operation>
       <name>mod2</name>
-      <expression>n % 2</expression>
+      <expression>r = n % 2</expression>
     </operation>
     <operation>
       <name>div2</name>
-      <expression>n // 2</expression>
+      <expression>n = n // 2</expression>
+    </operation>
+    <operation>
+      <name>to_bin</name>
+      <expression>bin = r + bin</expression>
+    </operation>
+    <operation>
+      <name>incr_bitcount</name>
+      <expression>bit_count = bit_count + 1</expression>
     </operation>
   </operationlist>
 
@@ -37,34 +53,42 @@
       <name>default</name>
       <expression>True</expression>
     </condition>
+    <condition>
+      <name>condition2</name>
+      <expression>n == 0 and bit_count &lt; 8</expression>
+    </condition>
+    <condition>
+      <name>n_positive</name>
+      <expression>n &gt; 0</expression>
+    </condition>
+    <condition>
+      <name>overbit</name>
+      <expression>n == 0 and bit_count &gt;= 8</expression>
+    </condition>
   </conditionlist>
 
   <fsmd>
     <INITIALIZE>
       <transition>
         <condition>True</condition>
-        <instruction>
-          n = number;
-          bin = "";
-          bit_count = 0;
-        </instruction>
+        <instruction>init_n init_bin</instruction>
         <nextstate>TEST</nextstate>
       </transition>
     </INITIALIZE>
 
     <TEST>
       <transition>
-        <condition>n &gt; 0</condition>
+        <condition>n_positive</condition>
         <instruction>nop</instruction>
         <nextstate>AMINB</nextstate>
       </transition>
       <transition>
-        <condition>n == 0 and bit_count &lt; 8</condition>
+        <condition>condition2</condition>
         <instruction>nop</instruction>
         <nextstate>PAD</nextstate>
       </transition>
       <transition>
-        <condition>n == 0 and bit_count &gt;= 8</condition>
+        <condition>overbit</condition>
         <instruction>nop</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
@@ -73,10 +97,7 @@
     <AMINB>
       <transition>
         <condition>True</condition>
-        <instruction>
-          r = mod2(n);
-          n = div2(n);
-        </instruction>
+        <instruction>mod2 div2</instruction>
         <nextstate>BMINA</nextstate>
       </transition>
     </AMINB>
@@ -84,10 +105,7 @@
     <BMINA>
       <transition>
         <condition>True</condition>
-        <instruction>
-          bin = r + bin;
-          bit_count = bit_count + 1;
-        </instruction>
+        <instruction>to_bin incr_bitcount</instruction>
         <nextstate>TEST</nextstate>
       </transition>
     </BMINA>
@@ -111,7 +129,7 @@
     <FINISH>
       <transition>
         <condition>True</condition>
-        <instruction>// Simulation complete. "bin" now holds the 8‑bit binary result.</instruction>
+        <instruction>nop</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
     </FINISH>
