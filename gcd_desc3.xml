@@ -46,6 +46,10 @@
       <name>incr_bitcount</name>
       <expression>bit_count = bit_count + 1</expression>
     </operation>
+    <operation>
+      <name>pad_bin</name>
+      <expression>bin = "0" + bin</expression>
+    </operation>
   </operationlist>
 
   <conditionlist>
@@ -64,6 +68,14 @@
     <condition>
       <name>overbit</name>
       <expression>n == 0 and bit_count &gt;= 8</expression>
+    </condition>
+    <condition>
+      <name>pad_incomplete</name>
+      <expression>bit_count &lt; 8</expression>
+    </condition>
+    <condition>
+      <name>pad_complete</name>
+      <expression>bit_count == 8</expression>
     </condition>
   </conditionlist>
 
@@ -112,15 +124,12 @@
 
     <PAD>
       <transition>
-        <condition>bit_count &lt; 8</condition>
-        <instruction>
-          bin = "0" + bin;
-          bit_count = bit_count + 1;
-        </instruction>
+        <condition>pad_incomplete</condition>
+        <instruction>pad_bin incr_bitcount</instruction>
         <nextstate>PAD</nextstate>
       </transition>
       <transition>
-        <condition>bit_count == 8</condition>
+        <condition>pad_complete</condition>
         <instruction>nop</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
