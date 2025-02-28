@@ -1,10 +1,7 @@
 <fsmdstimulus>
-
   <setinput>
     <cycle>0</cycle>
-    <expression>number = 42</expression>
+    <expression>n = 0; bin = ""; r = 0; bit_count = 0; number = 42</expression>
   </setinput>
-
   <endstate>FINISH</endstate>
-
 </fsmdstimulus>

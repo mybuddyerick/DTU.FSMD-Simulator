@@ -1,10 +1,10 @@
 <fsmddescription>
-
   <statelist>
     <state>INITIALIZE</state>
     <state>TEST</state>
     <state>AMINB</state>
     <state>BMINA</state>
+    <state>PAD</state>
     <state>FINISH</state>
   </statelist>
 
@@ -18,6 +18,7 @@
     <variable>n</variable>
     <variable>bin</variable>
     <variable>r</variable>
+    <variable>bit_count</variable>
   </variablelist>
 
   <operationlist>
@@ -32,9 +33,10 @@
   </operationlist>
 
   <conditionlist>
-    <condition>True</condition>
-    <condition>n &gt; 0</condition>
-    <condition>n == 0</condition>
+    <condition>
+      <name>default</name>
+      <expression>True</expression>
+    </condition>
   </conditionlist>
 
   <fsmd>
@@ -44,6 +46,7 @@
         <instruction>
           n = number;
           bin = "";
+          bit_count = 0;
         </instruction>
         <nextstate>TEST</nextstate>
       </transition>
@@ -52,12 +55,17 @@
     <TEST>
       <transition>
         <condition>n &gt; 0</condition>
-        <instruction></instruction>
+        <instruction>nop</instruction>
         <nextstate>AMINB</nextstate>
       </transition>
       <transition>
-        <condition>n == 0</condition>
-        <instruction></instruction>
+        <condition>n == 0 and bit_count &lt; 8</condition>
+        <instruction>nop</instruction>
+        <nextstate>PAD</nextstate>
+      </transition>
+      <transition>
+        <condition>n == 0 and bit_count &gt;= 8</condition>
+        <instruction>nop</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
     </TEST>
@@ -78,18 +86,34 @@
         <condition>True</condition>
         <instruction>
           bin = r + bin;
+          bit_count = bit_count + 1;
         </instruction>
         <nextstate>TEST</nextstate>
       </transition>
     </BMINA>
 
+    <PAD>
+      <transition>
+        <condition>bit_count &lt; 8</condition>
+        <instruction>
+          bin = "0" + bin;
+          bit_count = bit_count + 1;
+        </instruction>
+        <nextstate>PAD</nextstate>
+      </transition>
+      <transition>
+        <condition>bit_count == 8</condition>
+        <instruction>nop</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </PAD>
+
     <FINISH>
       <transition>
         <condition>True</condition>
-        <instruction>// Simulation complete. "bin" now holds the binary result.</instruction>
+        <instruction>// Simulation complete. "bin" now holds the 8‑bit binary result.</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
     </FINISH>
   </fsmd>
-
 </fsmddescription>
