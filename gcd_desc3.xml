@@ -12,6 +12,7 @@
 
   <inputlist>
     <input>number</input>
+    <input>temp</input>
   </inputlist>
 
   <variablelist>
