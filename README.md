@@ -19,6 +19,7 @@ Before running the simulation, modify the inputs `in_A` and `in_B` inside the fi
 
 
 ```python3 fsmd-sim.py [integer] test_2/gcd_desc.xml test_2/gcd_stim.xml```
+```python3 fsmd-sim.py 100 test_2/gcd_desc.xml test_2/gcd_stim.xml```
 
 
 ### Task 3
@@ -28,7 +29,8 @@ Task 3 is an **Integer to Binary Converter** simulator. It takes the following i
 
 The simulation runs until the conversion is complete, so **a large cycle count** (like in the previous tasks) ensures it finishes properly. To run the simulation, modify the inputs in `gcd_stim3.xml`, then execute:
 
-```python3 fsmd-sim.py [integer] gcd_desc3.xml gcd_stim3.xml```
+```python3 fsmd-sim.py [integer] gcd_desc3.xml gcd_stim3.xml```  
+```python3 fsmd-sim.py 100 gcd_desc3.xml gcd_stim3.xml```
 
 **Important Note**  
 Due to XML file limitations, the output will display 8s instead of 0s in the binary representation. The actual values should be interpreted as if 8 = 0.
