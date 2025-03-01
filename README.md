@@ -1,5 +1,5 @@
 
-# Cyber Systems - Assinment 1
+# Cyber Systems - Assignment 1
 **Group 2**
 
 

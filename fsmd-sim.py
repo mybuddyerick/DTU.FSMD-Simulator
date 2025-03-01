@@ -290,7 +290,10 @@ def run_cycle():
     print_cycle_complete()
 
 def main():
-    end_state = fsmd_stim['fsmdstimulus']['endstate']
+    try:
+        end_state = fsmd_stim['fsmdstimulus']['endstate']
+    except:
+        end_state = fsmd_des['fsmddescription']['statelist']['state'][-1]
     while True:
         run_cycle()
         if cycle == iterations:
