@@ -2,12 +2,22 @@
 
   <setinput>
     <cycle>0</cycle>
-    <expression>bin = ""</expression>
+    <expression>number = 28392</expression>
   </setinput>
 
   <setinput>
     <cycle>0</cycle>
-    <expression>number = 42</expression>
+    <expression>in_bits = 16</expression>
+  </setinput>
+
+  <setinput>
+    <cycle>1</cycle>
+    <expression>number = 0</expression>
+  </setinput>
+
+  <setinput>
+    <cycle>1</cycle>
+    <expression>in_bits = 0</expression>
   </setinput>
 
   <endstate>FINISH</endstate>

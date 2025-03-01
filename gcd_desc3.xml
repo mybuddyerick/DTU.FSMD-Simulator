@@ -12,7 +12,8 @@
 
   <inputlist>
     <input>number</input>
-    <input>temp</input>
+    <input>in_bin</input>
+    <input>in_bits</input>
   </inputlist>
 
   <variablelist>
@@ -20,6 +21,7 @@
     <variable>bin</variable>
     <variable>r</variable>
     <variable>bit_count</variable>
+    <variable>bits</variable>
   </variablelist>
 
   <operationlist>
@@ -29,11 +31,11 @@
     </operation>
     <operation>
       <name>init_bin</name>
-      <expression>bin = ""</expression>
+      <expression>bin = in_bin</expression>
     </operation>
     <operation>
       <name>mod2</name>
-      <expression>r = n % 2</expression>
+      <expression>r = 8 - ((n % 2) * 7)</expression>
     </operation>
     <operation>
       <name>div2</name>
@@ -41,7 +43,7 @@
     </operation>
     <operation>
       <name>to_bin</name>
-      <expression>bin = r + bin</expression>
+      <expression>bin = r * 10 ** bit_count + bin</expression>
     </operation>
     <operation>
       <name>incr_bitcount</name>
@@ -49,7 +51,11 @@
     </operation>
     <operation>
       <name>pad_bin</name>
-      <expression>bin = "0" + bin</expression>
+      <expression>bin = 8*(10**bit_count) + bin</expression>
+    </operation>
+    <operation>
+      <name>init_bits</name>
+      <expression>bits = in_bits</expression>
     </operation>
   </operationlist>
 
@@ -60,7 +66,7 @@
     </condition>
     <condition>
       <name>condition2</name>
-      <expression>n == 0 and bit_count &lt; 8</expression>
+      <expression>n == 0 and bit_count &lt; bits</expression>
     </condition>
     <condition>
       <name>n_positive</name>
@@ -68,15 +74,15 @@
     </condition>
     <condition>
       <name>overbit</name>
-      <expression>n == 0 and bit_count &gt;= 8</expression>
+      <expression>n == 0 and bit_count &gt;= bits</expression>
     </condition>
     <condition>
       <name>pad_incomplete</name>
-      <expression>bit_count &lt; 8</expression>
+      <expression>bit_count &lt; bits</expression>
     </condition>
     <condition>
       <name>pad_complete</name>
-      <expression>bit_count == 8</expression>
+      <expression>bit_count == bits</expression>
     </condition>
   </conditionlist>
 
@@ -84,7 +90,7 @@
     <INITIALIZE>
       <transition>
         <condition>True</condition>
-        <instruction>init_n init_bin</instruction>
+        <instruction>init_n init_bin init_bits</instruction>
         <nextstate>TEST</nextstate>
       </transition>
     </INITIALIZE>
