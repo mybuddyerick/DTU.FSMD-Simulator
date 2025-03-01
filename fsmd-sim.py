@@ -268,10 +268,12 @@ def print_cycle_complete():
 
 def run_cycle():
     global cycle, state
+    xml_data = fsmd_stim.get('fsmdstimulus')
+    if xml_data is None:
+        return
     for variable in fsmd_stim['fsmdstimulus']['setinput']:
         if int(variable['cycle']) == cycle:
             execute_setinput(variable['expression'])
-
     print_cycle_init()
     true_condition = None
     next_state = "TEST"
