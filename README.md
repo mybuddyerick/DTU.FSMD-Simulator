@@ -18,7 +18,7 @@ The simulation runs until the conversion is complete, so **a large cycle count**
 Before running the simulation, modify the inputs `in_A` and `in_B` inside the file `test_2/gcd_stim.xml`. Then execute:
 
 
-```python3 fsmd-sim.py [integer] test_2/gcd_desc.xml test_2/gcd_stim.xml```
+```python3 fsmd-sim.py [integer] test_2/gcd_desc.xml test_2/gcd_stim.xml```  
 ```python3 fsmd-sim.py 100 test_2/gcd_desc.xml test_2/gcd_stim.xml```
 
 
