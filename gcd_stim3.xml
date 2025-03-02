@@ -2,12 +2,12 @@
 
   <setinput>
     <cycle>0</cycle>
-    <expression>number = 28392</expression>
+    <expression>number = 5</expression>
   </setinput>
 
   <setinput>
     <cycle>0</cycle>
-    <expression>in_bits = 16</expression>
+    <expression>in_bits = 4</expression>
   </setinput>
 
   <setinput>
