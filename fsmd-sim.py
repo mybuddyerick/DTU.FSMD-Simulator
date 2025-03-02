@@ -253,12 +253,20 @@ for key in fsmd_des['fsmddescription']['variablelist']['variable']:
     print(f"  {key} = {variables[key]}")
 print("Initial state:", state)
 
+
 def print_cycle_init():
     print(break_line)
     print('Cycle:', cycle)
     print('Current state:', state)
-    for input in fsmd_des['fsmddescription']['inputlist']['input']:
-        print(' ', input, "=", inputs[input])
+    try:
+        input_list = fsmd_des['fsmddescription']['inputlist']['input']
+        if input_list:
+            for inp in input_list:
+                print(' ', inp, "=", inputs[inp])
+        else:
+            return
+    except (KeyError, TypeError):
+        return
 
 def print_cycle_complete():
     print("Next state:", state)
@@ -268,15 +276,28 @@ def print_cycle_complete():
 
 def run_cycle():
     global cycle, state
-    for variable in fsmd_stim['fsmdstimulus']['setinput']:
-        if int(variable['cycle']) == cycle:
-            execute_setinput(variable['expression'])
+
+    try:
+        stimulus = fsmd_stim['fsmdstimulus']
+    except KeyError:
+        stimulus = None
+        for key in fsmd_stim.keys():
+            if key.lower().startswith('fsmdstimulus'):
+                stimulus = fsmd_stim[key]
+                break
+        if stimulus is None:
+            stimulus = {}  # Use empty dict as fallback
+
+    if 'setinput' in stimulus:
+        for variable in stimulus['setinput']:
+            if int(variable['cycle']) == cycle:
+                execute_setinput(variable['expression'])
 
     print_cycle_init()
     true_condition = None
     next_state = "TEST"
     instr = "NOP"
-    # loop through transitions and check the condition
+    # Loop through transitions and check the condition
     for trans in fsmd[state]:
         if evaluate_condition(trans["condition"]):
             true_condition = trans["condition"]
@@ -287,7 +308,9 @@ def run_cycle():
     execute_instruction(instr)
     state = next_state
     cycle += 1
+    input = 0
     print_cycle_complete()
+
 
 def main():
     try:
