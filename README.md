@@ -2,8 +2,10 @@
   <img src="https://github.com/user-attachments/assets/9ea39d49-e732-4c1a-9bd7-f9d72f1e6d4d" alt="Logo" height="140">
 </div>
 
-# Cyber Systems - Implementation of an FSMD simulator in Python
+<h1 align="center">02135 Introduction to Cyber Systems - Implementation of an FSMD simulator in Python</h1>
+
 #### Made by Group 2
+
 ## Assignment 1 – Cyber Systems Course
 This repository contains all files required to complete the tasks for Assignment 1 in the Cyber Systems course, using an Adafruit HUZZAH32 – ESP32 Feather Board (ID 3405).
 
